@@ -29,7 +29,7 @@ router.post('/', function (req, res, next) {
     .then(data => {
       console.log(data.trim());
       res.type('xml');
-      res.send(data);
+      res.send(data.trim());
     })
 });
 
