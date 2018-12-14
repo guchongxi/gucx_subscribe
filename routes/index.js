@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var sha1 = require('sha1')
 var xml2js = require('xml2js')
 var axios = require('axios');
 

@@ -1,4 +1,5 @@
 const { TOKEN } = require('./config');
+const sha1 = require('sha1')
 
 /**
  * 校验微信服务器签名
