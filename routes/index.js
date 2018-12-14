@@ -25,47 +25,55 @@ router.get('/', function (req, res, next) {
 });
 /* POST main */
 router.post('/', function (req, res, next) {
-  handler(req, res);
+  handler(req, res)
+    .then((res) => {
+      console.log(res);
+
+      res.send('success');
+    })
 });
 
 function handler(req, res) {
-  let buf = '';
-  // 获取XML内容
-  req.setEncoding('utf8');
-  req.on('data', function (chunk) {
-    buf += chunk;
-  });
-  // 内容接收完毕
-  req.on('end', function () {
-    xml2js.parseString(buf, function (err, json) {
-      if (err) {
-        err.status = 400;
-      } else {
-        req.body = json;
-      }
+  return new Promise(resolve => {
+    let buf = '';
+    // 获取XML内容
+    req.setEncoding('utf8');
+    req.on('data', function (chunk) {
+      buf += chunk;
     });
+    // 内容接收完毕
+    req.on('end', function () {
+      xml2js.parseString(buf, function (err, json) {
+        if (err) {
+          err.status = 400;
+        } else {
+          req.body = json;
+        }
+      });
 
-    let data = req.body.xml;
+      let data = req.body.xml;
 
-    const {
-      FromUserName: [toUserName] = [],
-      ToUserName: [fromUserName] = [],
-      CreateTime: [createTime] = [],
-      MsgType: [msgType] = [],
-      Content: [content] = [],
-      MsgId: [msgId] = []
-    } = data;
+      const {
+        FromUserName: [toUserName] = [],
+        ToUserName: [fromUserName] = [],
+        CreateTime: [createTime] = [],
+        MsgType: [msgType] = [],
+        Content: [content] = [],
+        MsgId: [msgId] = []
+      } = data;
 
-    var msg = {
-      toUserName,
-      fromUserName,
-      createTime,
-      msgType,
-      content,
-      msgId
-    };
-    request(msg, req, res)
-  });
+      var msg = {
+        toUserName,
+        fromUserName,
+        createTime,
+        msgType,
+        content,
+        msgId
+      };
+      request(msg, req, res)
+        .then(resolve)
+    });
+  })
 }
 
 function request(data, res) {
@@ -82,7 +90,7 @@ function request(data, res) {
     }
   }
 
-  axios.post(API_HOST, params)
+  return axios.post(API_HOST, params)
     .then(({ data: { results = [] } }) => {
       // resultType：文本(text);连接(url);音频(voice);视频(video);图片(image);图文(news)
       // values
@@ -94,17 +102,14 @@ function request(data, res) {
 
         data.content = text;
       }
-
-      echo(data, res);
     })
-    .catch(() => {
-      echo(data, res);
-    })
+    .catch(() => { })
+    .then(() => echo(data))
 }
-function echo(data = {}, res) {
+function echo(data = {}) {
   const time = Math.round(new Date().getTime() / 1000);
   const { toUserName, fromUserName, msgType, content } = data;
-  const output = `
+  return `
   <xml>
     <ToUserName>< ![CDATA[${toUserName}] ]></ToUserName>
     <FromUserName>< ![CDATA[${fromUserName}] ]></FromUserName>
@@ -113,9 +118,6 @@ function echo(data = {}, res) {
     <Content>< ![CDATA[${content}] ]></Content>
   </xml>
   `;
-
-  // res.set('Content-Type', 'text/xml');
-  res.send(output);
 }
 
 module.exports = router;
