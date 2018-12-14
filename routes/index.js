@@ -114,7 +114,7 @@ function echo(data = {}, res) {
   </xml>
   `;
 
-  res.set('Content-Type', 'text/xml');
+  // res.set('Content-Type', 'text/xml');
   res.send(output);
 }
 
