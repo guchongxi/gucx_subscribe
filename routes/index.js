@@ -47,7 +47,6 @@ function handler(req, res) {
 
     let data = req.body.xml;
 
-    console.log(data);
     const {
       FromUserName: [ToUserName] = [],
       ToUserName: [FromUserName] = [],
@@ -56,6 +55,7 @@ function handler(req, res) {
       Content: [Content] = [],
       MsgId: [MsgId] = []
     } = data;
+    console.log(ToUserName, FromUserName, CreateTime, MsgType, Content, MsgId);
 
     var msg = {
       toUserName,
