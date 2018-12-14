@@ -6,6 +6,10 @@ var axios = require('axios');
 const {
   checkSignature
 } = require('../utils');
+const {
+  API_KEY,
+  API_HOST
+} = require('../config');
 
 
 /* GET main */
@@ -21,38 +25,46 @@ router.get('/', function (req, res, next) {
 });
 /* POST main */
 router.post('/', function (req, res, next) {
-  request(req.body, res);
+  handler(req, res);
 });
 
 function handler(req, res) {
-  let data = {};
-
-  xml2js.parseString(req.data, (err, json) => {
-    if (err) {
-      err.status = 400;
-    } else {
-      data = json.xml;
-    }
+  let buf = '';
+  // 获取XML内容
+  req.setEncoding('utf8');
+  req.on('data', function (chunk) {
+    buf += chunk;
   });
+  // 内容接收完毕
+  req.on('end', function () {
+    xml2js.parseString(buf, function (err, json) {
+      if (err) {
+        err.status = 400;
+      } else {
+        req.body = json;
+      }
+    });
 
-  const {
-    FromUserName: [ToUserName] = [],
-    ToUserName: [FromUserName] = [],
-    CreateTime: [CreateTime] = [],
-    MsgType: [MsgType] = [],
-    Content: [Content] = [],
-    MsgId: [MsgId] = []
-  } = data;
+    let data = req.body.xml;
+    const {
+      FromUserName: [ToUserName] = [],
+      ToUserName: [FromUserName] = [],
+      CreateTime: [CreateTime] = [],
+      MsgType: [MsgType] = [],
+      Content: [Content] = [],
+      MsgId: [MsgId] = []
+    } = data;
 
-  var msg = {
-    toUserName,
-    fromUserName,
-    createTime,
-    msgType,
-    content,
-    msgId
-  };
-  request(msg, req, res)
+    var msg = {
+      toUserName,
+      fromUserName,
+      createTime,
+      msgType,
+      content,
+      msgId
+    };
+    request(msg, req, res)
+  });
 }
 
 function request(data, res) {
@@ -64,12 +76,12 @@ function request(data, res) {
       }
     },
     userInfo: {
-      apiKey: "6d49fe0ebf2943f3ac146a6658785ed1",
+      apiKey: API_KEY,
       userId: ~~(Math.random() * 99999)
     }
   }
 
-  axios.post('http://openapi.tuling123.com/openapi/api/v2', params)
+  axios.post(API_HOST, params)
     .then(({ data: { results = [] } }) => {
       // resultType：文本(text);连接(url);音频(voice);视频(video);图片(image);图文(news)
       // values
