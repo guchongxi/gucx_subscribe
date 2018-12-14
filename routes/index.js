@@ -114,10 +114,7 @@ function echo(data = {}, res) {
   </xml>
   `;
 
-  console.log(11111);
-  console.log(output);
-
-  res.type('xml');
+  res.set('Content-Type', 'text/xml');
   res.send(output);
 }
 
