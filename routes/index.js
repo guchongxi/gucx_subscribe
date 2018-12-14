@@ -27,7 +27,6 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
   handler(req)
     .then(data => {
-      console.log(data);
       res.type('xml');
       res.send(data);
     })
