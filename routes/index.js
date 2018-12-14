@@ -46,6 +46,8 @@ function handler(req, res) {
     });
 
     let data = req.body.xml;
+
+    console.log(data);
     const {
       FromUserName: [ToUserName] = [],
       ToUserName: [FromUserName] = [],
