@@ -28,8 +28,8 @@ router.post('/', function (req, res, next) {
   handler(req)
     .then(data => {
       console.log(data.trim());
-
-      res.send('success');
+      res.type('xml');
+      res.send(data);
     })
 });
 
