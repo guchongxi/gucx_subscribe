@@ -25,15 +25,15 @@ router.get('/', function (req, res, next) {
 });
 /* POST main */
 router.post('/', function (req, res, next) {
-  handler(req, res)
-    .then((res) => {
-      console.log(res);
+  handler(req)
+    .then(data => {
+      console.log(data.trim());
 
       res.send('success');
     })
 });
 
-function handler(req, res) {
+function handler(req) {
   return new Promise(resolve => {
     let buf = '';
     // 获取XML内容
@@ -70,13 +70,13 @@ function handler(req, res) {
         content,
         msgId
       };
-      request(msg, req, res)
+      request(msg)
         .then(resolve)
     });
   })
 }
 
-function request(data, res) {
+function request(data) {
   const params = {
     reqType: 0,
     perception: {
