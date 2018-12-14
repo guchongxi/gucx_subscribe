@@ -27,9 +27,9 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
   handler(req)
     .then(data => {
-      console.log(data.trim());
+      console.log(data);
       res.type('xml');
-      res.send(data.trim());
+      res.send(data);
     })
 });
 
@@ -109,7 +109,7 @@ function request(data) {
 function echo(data = {}) {
   const time = Math.round(new Date().getTime() / 1000);
   const { toUserName, fromUserName, msgType, content } = data;
-  return `
+  const output = `
   <xml>
     <ToUserName>< ![CDATA[${toUserName}] ]></ToUserName>
     <FromUserName>< ![CDATA[${fromUserName}] ]></FromUserName>
@@ -118,6 +118,8 @@ function echo(data = {}) {
     <Content>< ![CDATA[${content}] ]></Content>
   </xml>
   `;
+
+  return output.replace(/ /g, '');
 }
 
 module.exports = router;
