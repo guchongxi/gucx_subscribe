@@ -114,6 +114,8 @@ function echo(data = {}, res) {
   </xml>
   `;
 
+  console.log(output);
+
   res.type('xml');
   res.send(output);
 }
