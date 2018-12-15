@@ -85,11 +85,9 @@ function request(data) {
     },
     userInfo: {
       apiKey: API_KEY,
-      userId: ~~(Math.random() * 99999)
+      userId: data.toUserName
     }
   }
-
-  console.log(data);
 
   return axios.post(API_HOST, params)
     .then(({ data: { results = [] } }) => {
