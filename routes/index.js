@@ -89,6 +89,8 @@ function request(data) {
     }
   }
 
+  console.log(data);
+
   return axios.post(API_HOST, params)
     .then(({ data: { results = [] } }) => {
       // resultType：文本(text);连接(url);音频(voice);视频(video);图片(image);图文(news)
