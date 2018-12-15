@@ -85,7 +85,8 @@ function request(data) {
     },
     userInfo: {
       apiKey: API_KEY,
-      userId: data.toUserName
+      // 不支持 除英文数字以外的字符
+      userId: data.toUserName.replace(/[^A-Za-z0-9]/g, '')
     }
   }
 
