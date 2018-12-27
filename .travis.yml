@@ -3,15 +3,10 @@ language: node_js
 services:
   - docker
 
-node_js:
-  - "lts/*"
-
-cache: yarn
-
-install: yarn
+install: true
 
 script:
-  - echo "$TRAVIS_REPO_SLUG"
+  - node --version
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
