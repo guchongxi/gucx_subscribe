@@ -1,0 +1,15 @@
+language: node_js
+
+services:
+  - docker
+
+node_js:
+  - "lts/*"
+
+cache: yarn
+
+install: yarn
+
+script:
+  - node --version
+
