@@ -12,3 +12,8 @@ install: yarn
 
 script:
   - echo "$TRAVIS_REPO_SLUG"
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker build -t $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID .
+  - docker push $TRAVIS_REPO_SLUG:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID;
