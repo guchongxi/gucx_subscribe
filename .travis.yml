@@ -11,5 +11,4 @@ cache: yarn
 install: yarn
 
 script:
-  - node --version
-
+  - echo "$TRAVIS_REPO_SLUG"
