@@ -19,5 +19,5 @@ script:
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-  - docker build -t guchong/gucx_subscribe:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID .
-  - docker push guchong/gucx_subscribe:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID;
+  - docker build -t $DOCKER_REPO_SLUG:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID .
+  - docker push $DOCKER_REPO_SLUG:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID;
