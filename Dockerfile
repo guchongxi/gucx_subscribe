@@ -1,6 +1,11 @@
 FROM keymetrics/pm2:latest-alpine
+
+LABEL description="顾重(gucx_subscribe) 订阅号自动AI回复"
+LABEL maintainer="guchongxi@gmail.com"
+
 ENV NODE_ENV production
 ENV NPM_CONFIG_LOGLEVEL warn
+
 WORKDIR /usr/src/app
 
 # Bundle APP files
