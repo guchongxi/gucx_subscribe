@@ -28,4 +28,4 @@ after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker build -t $DOCKER_REPO_SLUG:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID .
   - docker push $DOCKER_REPO_SLUG:$TRAVIS_BRANCH-$TRAVIS_BUILD_ID;
-  - sshpass -p $VPS_PASSWORD ssh -o stricthostkeychecking=no -p $VPS_PORT $VPS_USER@$VPS_HOST "sudo cd /root/work/deploy/ && ./update.sh && ./$SERVER_NAME.sh $DOCKER_REPO_SLUG $TRAVIS_BRANCH-$TRAVIS_BUILD_ID $SERVER_NAME $PM2_SECRET_KEY $PM2_PUBLIC_KEY"
+  - sshpass -p $VPS_PASSWORD ssh -o stricthostkeychecking=no -p $VPS_PORT $VPS_USER@$VPS_HOST "cd /root/work/deploy/ && sudo ./update.sh && sudo ./$SERVER_NAME.sh $DOCKER_REPO_SLUG $TRAVIS_BRANCH-$TRAVIS_BUILD_ID $SERVER_NAME $PM2_SECRET_KEY $PM2_PUBLIC_KEY"
