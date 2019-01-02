@@ -38,7 +38,7 @@ info=$(curl -s -m 10 --connect-timeout 10 -I $HOST_NAME)
 code=$(echo $info | grep "HTTP" | awk '{print $2}')
 #对响应码进行判断
 if [ "$code" == "200" ]; then
-	echo "\nDeploy success🎉"
+	echo -e "\nDeploy success🎉"
 else
-	echo "\nDeploy fail$code"
+	echo -e "\nDeploy fail$code"
 fi
