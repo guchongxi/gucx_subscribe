@@ -24,7 +24,7 @@ echo -e "\nRun container..."
 docker run -d -p 8181:8181 --name $3 -e PM2_SECRET_KEY=$4 -e PM2_PUBLIC_KEY=$5 -e PM2_MACHINE_NAME=$3 $1:$2
 echo "Run container success"
 
-sleep 3
+sleep 1
 
 HOST_NAME=https://weixin.guchongxi.com
 
@@ -38,7 +38,7 @@ info=$(curl -s -m 10 --connect-timeout 10 -I $HOST_NAME)
 code=$(echo $info | grep "HTTP" | awk '{print $2}')
 #对响应码进行判断
 if [ "$code" == "200" ]; then
-	echo "Deploy success🎉"
+	echo "\nDeploy success🎉"
 else
-	echo "Deploy fail$code"
+	echo "\nDeploy fail$code"
 fi
