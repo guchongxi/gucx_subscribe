@@ -20,7 +20,7 @@ router.get('/', function (req, res, next) {
 
     res.send(echostr);
   } else {
-    res.send('fail');
+    res.send('fail~~');
   }
 });
 /* POST main */
