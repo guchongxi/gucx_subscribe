@@ -20,7 +20,7 @@ router.get('/', function (req, res, next) {
 
     res.send(echostr);
   } else {
-    res.send('fail~~(from test)');
+    res.send('fail~~(from test share)');
   }
 });
 /* POST main */
